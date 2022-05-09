@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+<body>
+  <div class="container">
+    <center><h3 style="margin-top: 50px;">Extract PDF from Google Search Link</h3></center>
+    <form>
+      <div class="form-group">
+        <label for="x_0">Link:</label>
+        <input type="text" class="form-control" id="link" placeholder="" >
+      </div>
+      <button id="compute" type="submit" class="btn btn-success">Extract</button>
+      <div class="form-group" style="margin-top: 25px;">
+        <output id="result"></output>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.getElementById('compute').addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      let link = document.getElementById('link').value;
+      let pos1 = link.search("&url");
+      console.log(pos1);
+      let substring = link.slice(pos1 + 5);
+      console.log(substring);
+      let pos2 = substring.search('&');
+      let raw_url = substring.slice(0, pos2);
+      
+      try {
+        var url = decodeURIComponent(raw_url);
+        window.location.href = url;
+        // document.getElementById('url').value = url;
+      } catch(e) {
+        console.error(e);
+      }
+      console.log(url);
+    });
+  </script>
+</body>
+</html> 
