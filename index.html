@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
 <body>
   <div class="container">
-    <center><h3 style="margin-top: 50px;">Extract PDF from Google Search Link</h3></center>
+    <center>
+      <h3 style="margin-top: 50px;">Extract PDF from Google Search Link</h3>
+    </center>
     <form>
       <div class="form-group">
         <label for="x_0">Link:</label>
-        <input type="text" class="form-control" id="link" placeholder="" >
+        <input type="text" class="form-control" id="link" placeholder="">
       </div>
       <button id="compute" type="submit" class="btn btn-success">Extract</button>
       <div class="form-group" style="margin-top: 25px;">
+        <input type="text" class="form-control" id="pdf-link" placeholder="">
         <output id="result"></output>
       </div>
+      <button id="btn01" class="btn btn-secondary" type="button" data-clipboard-demo=""
+        data-clipboard-target="#pdf-link" data-bs-toggle="tooltip" title="Copy to Clipboard">
+        Copy
+      </button>
     </form>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
   <script>
     document.getElementById('compute').addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
-      
+
       let link = document.getElementById('link').value;
       let pos1 = link.search("&url");
       console.log(pos1);
@@ -29,16 +40,29 @@
       console.log(substring);
       let pos2 = substring.search('&');
       let raw_url = substring.slice(0, pos2);
-      
+
+      let btn = document.getElementById('btn01');
+      let clipboard = new ClipboardJS(btn);
+
+      clipboard.on('success', function (e) {
+        console.log(e);
+      });
+
+      clipboard.on('error', function (e) {
+        console.log(e);
+      });
+
       try {
         var url = decodeURIComponent(raw_url);
+        document.getElementById('pdf-link').value = url;
         window.location.href = url;
         // document.getElementById('url').value = url;
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
       console.log(url);
     });
   </script>
 </body>
-</html> 
+
+</html>
